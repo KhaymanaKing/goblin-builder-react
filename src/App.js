@@ -43,7 +43,6 @@ function App() {
     setGoblinFormColor('');
     setGoblinFormHP('green');
   }
-
   function handleDeleteGoblin(name) {
     // find the index of the goblin in allGoblins with this name
     const indexToRemove = allGoblins.findIndex(goblin => goblin.name === name);
@@ -64,7 +63,7 @@ function App() {
   return (
     <div className="App">
       <div className='current-goblin quarter'>
-        <Goblin goblin={{ allGoblins
+        <Goblin goblin={{ 
           /* 
             use the goblin form state to make a goblin object and to display it. 
             This will let the user see the current form state 
@@ -97,7 +96,7 @@ function App() {
         */
       />
       <GoblinList 
-        goblins={[]} // this takes in an array of goblins. If the filteredGoblins has a length, use that array. Otherwise, use the allGoblins array 
+        goblins={[allGoblins]} // this takes in an array of goblins. If the filteredGoblins has a length, use that array. Otherwise, use the allGoblins array 
         handleDeleteGoblin={handleDeleteGoblin} // note that the goblin list has access to the ability to delete
       />
     </div>
