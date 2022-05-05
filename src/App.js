@@ -5,15 +5,10 @@ import Goblin from './Goblin';
 import { useState } from 'react';
 
 function App() {
-  const [allGoblins, setAllGoblins] = useState([ 
-    {
-      name: 'Gobby',
-      hp:'25',
-      color: 'green'
-    }]);
+  const [allGoblins, setAllGoblins] = useState([]);
   const [filteredGoblins, filterAllGoblins] = useState(allGoblins);
-  const [goblinFormName, setGoblinFormName] = useState('');
-  const [goblinFormHp, setGoblinFormHP] = useState('');
+  const [goblinFormName, setGoblinFormName] = useState('Jeff');
+  const [goblinFormHp, setGoblinFormHP] = useState('5');
   const [goblinFormColor, setGoblinFormColor] = useState('green');
 
   /* 
@@ -27,13 +22,14 @@ function App() {
   
   function submitGoblin(e) {
     e.preventDefault();
-    const newGoblin = {
-      goblinFormName,
-      goblinFormHp,
-      goblinFormColor,
+    const goblin = {
+      name:goblinFormName,
+      hp:goblinFormHp,
+      color:goblinFormColor,
     };
-    setAllGoblins([...allGoblins, newGoblin]);
-
+    allGoblins.push(goblin);
+    setAllGoblins([...allGoblins]);
+    console.log(allGoblins);
     // on submit, make a new goblin object with a name that comes from the form state, an hp that comes from the form state, and a color that comes from the form state
 
     // update the allGoblins array. Add the new goblin to the allGoblins array immutably.
@@ -49,11 +45,12 @@ function App() {
     // use splice to delete the goblin object at this index
     allGoblins.splice(indexToRemove, 1);
     // update the allGoblins array immutably to this new, smaller array
+    setAllGoblins([...allGoblins]);
   }
 
   function handleFilterGoblins(search) {
     // use the filter method to get an array of goblins whose name includes this search argument
-
+    
     // if there is a search argument, set the filtered goblins to the filtered goblins
     // if the search argument is undefined, set the filtered goblins in state to just be the array of all goblins
     setAllGoblins([...allGoblins]);
@@ -63,12 +60,21 @@ function App() {
   return (
     <div className="App">
       <div className='current-goblin quarter'>
-        <Goblin goblin={{ 
-          /* 
-            use the goblin form state to make a goblin object and to display it. 
-            This will let the user see the current form state 
-          */
-        }}/>
+        {
+          goblinFormName || goblinFormHp 
+            ?
+            <Goblin goblin={{ 
+              name:goblinFormName,
+              hp:goblinFormHp,
+              color:goblinFormColor
+  
+            /* 
+              use the goblin form state to make a goblin object and to display it. 
+              This will let the user see the current form state 
+            */
+            }} />
+            : <div> Type to show</div>
+        }
       </div>
       <div className='goblin-filter quarter'>
         Filter Goblins
@@ -96,7 +102,7 @@ function App() {
         */
       />
       <GoblinList 
-        goblins={[allGoblins]} // this takes in an array of goblins. If the filteredGoblins has a length, use that array. Otherwise, use the allGoblins array 
+        goblins={allGoblins} // this takes in an array of goblins. If the filteredGoblins has a length, use that array. Otherwise, use the allGoblins array 
         handleDeleteGoblin={handleDeleteGoblin} // note that the goblin list has access to the ability to delete
       />
     </div>
